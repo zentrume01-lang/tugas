@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Informatika Kelas 9 - M. Raihan Al Birruny</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #28a745;
+            --bg-color: #ffffff;
+            --text-color: #333;
+            --sidebar-width: 280px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            overflow-x: hidden;
+        }
+
+        /* ================= HEADER / NAVBAR ================= */
+        .navbar {
+            display: flex;
+            align-items: center;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 12px 16px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .menu-btn {
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 1.4rem;
+            cursor: pointer;
+            margin-right: 15px;
+            padding: 8px;
+            border-radius: 50%;
+            transition: background-color 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .menu-btn:active {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .navbar-logo {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            margin-right: 12px;
+            background-color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+
+        /* LINK LOGO DIMASUKKAN KE SINI */
+        .navbar-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .navbar-title {
+            font-size: 1.15rem;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+        }
+
+        .search-icon {
+            margin-left: auto;
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+            transition: background-color 0.2s ease;
+        }
+
+        .search-icon:active {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        /* ================= SIDEBAR (OFF-CANVAS) ================= */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: -100%;
+            width: var(--sidebar-width);
+            height: 100vh;
+            background-color: #4caf50;
+            z-index: 1000;
+            transition: left 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+            display: flex;
+            flex-direction: column;
+            box-shadow: 2px 0 12px rgba(0,0,0,0.15);
+        }
+
+        .sidebar.active {
+            left: 0;
+        }
+
+        .sidebar-header {
+            display: flex;
+            justify-content: flex-end;
+            padding: 16px 20px;
+        }
+
+        .close-btn {
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 1.4rem;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+            transition: background-color 0.2s ease;
+        }
+
+        .close-btn:active {
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar-nav {
+            display: flex;
+            flex-direction: column;
+            margin-top: 5px;
+        }
+
+        .sidebar-nav a {
+            color: white;
+            text-decoration: none;
+            padding: 16px 24px;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: background-color 0.2s ease, padding-left 0.2s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        .sidebar-nav a:active {
+            background-color: rgba(0, 0, 0, 0.15);
+        }
+
+        .sidebar-nav a:hover, .sidebar-nav a.active {
+            background-color: rgba(0, 0, 0, 0.08);
+            padding-left: 28px;
+        }
+
+        /* Overlay gelap */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.4);
+            z-index: 999;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.35s ease;
+        }
+
+        .overlay.active {
+            display: block;
+            opacity: 1;
+        }
+
+        /* ================= MAIN CONTENT ================= */
+        .main-content {
+            padding: 24px 16px;
+            max-width: 800px;
+            margin: 0 auto;
+            animation: fadeIn 0.4s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-title {
+            color: var(--primary-color);
+            font-size: 1.7rem;
+            text-align: center;
+            margin-bottom: 24px;
+            font-weight: 700;
+            line-height: 1.3;
+        }
+
+        /* ================= HOME / SAMBUTAN ================= */
+        .hero-image {
+            width: 100%;
+            max-width: 100%;
+            margin: 0 auto 20px auto;
+            display: block;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            object-fit: cover;
+        }
+
+        .welcome-text {
+            font-size: 1rem;
+            line-height: 1.8;
+            text-align: justify;
+            color: #444;
+        }
+
+        .welcome-text p {
+            margin-bottom: 16px;
+        }
+
+        .signature {
+            margin-top: 30px;
+        }
+
+        /* ================= PROFIL ================= */
+        .profile-photo-wrapper {
+            width: 180px;
+            height: 220px;
+            margin: 0 auto 24px auto;
+            background-color: #f5f5f5;
+            border: 2px dashed #d1d5db;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .profile-photo-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-size: 0.95rem;
+            background: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .data-table td {
+            padding: 14px 16px;
+            border-bottom: 1px solid #f0f0f0;
+            vertical-align: top;
+        }
+
+        .data-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .data-table td:first-child {
+            font-weight: 500;
+            width: 35%;
+            color: #555;
+            background-color: #fafafa;
+        }
+
+        .data-table td:last-child {
+            color: #333;
+            font-weight: 500;
+        }
+
+        /* ================= PENGALAMAN ================= */
+        .exp-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .exp-item {
+            background: #fafafa;
+            padding: 20px;
+            border-left: 4px solid var(--primary-color);
+            border-radius: 0 8px 8px 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .exp-item:active {
+            transform: scale(0.98);
+            box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+        }
+
+        .exp-item h3 {
+            color: var(--primary-color);
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .exp-item p {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #555;
+            text-align: justify;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .section-title { font-size: 1.5rem; }
+            .main-content { padding: 20px 16px; }
+            .sidebar { width: 80%; max-width: 300px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR ATAS -->
+    <header class="navbar">
+        <button class="menu-btn" onclick="toggleSidebar()">
+            <i class="fas fa-bars"></i>
+        </button>
+        <div class="navbar-logo">
+            <!-- LOGO SEKOLAH DARI LINK YANG KAMU KASIH -->
+            <img src="https://ganga--link--ghhzdp9sv8hk.code.run/i/g3ab3qqh9r" alt="Logo">
+        </div>
+        <div class="navbar-title">M. Raihan Al Birruny</div>
+        <div class="search-icon">
+            <i class="fas fa-search"></i>
+        </div>
+    </header>
+
+    <!-- OVERLAY GELAP -->
+    <div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+    <!-- SIDEBAR MENU -->
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <button class="close-btn" onclick="toggleSidebar()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="sidebar-nav">
+            <a href="#home" class="active" onclick="showSection('home', this)">
+                Home
+            </a>
+            <a href="#profil" onclick="showSection('profil', this)">
+                Profil
+            </a>
+            <a href="#pengalaman" onclick="showSection('pengalaman', this)">
+                Pengalaman Belajar
+            </a>
+        </div>
+    </nav>
+
+    <!-- KONTEN UTAMA -->
+    <main class="main-content">
+        
+        <!-- SECTION HOME -->
+        <section id="home" class="content-section" style="display: block;">
+            <h1 class="section-title">Sambutan</h1>
+            
+            <img src="https://ganga--link--ghhzdp9sv8hk.code.run/i/ha36qmq95x" alt="Foto Sambutan" class="hero-image">
+            
+            <div class="welcome-text">
+                <p><i>Assalamu’alaikum Warahmatullahi Wabarakatuh.</i></p>
+                <p>Selamat datang di website pribadi saya!</p>
+                <p>Puji syukur ke hadirat Tuhan Yang Maha Esa karena atas rahmat dan karunia-Nya, website ini dapat dibuat dengan baik.</p>
+                <p>Perkenalkan, nama saya <b>M. Raihan Al Birruny</b>, siswa kelas 9C. Website ini saya buat sebagai salah satu bentuk tugas mata pelajaran Teknologi Informasi dan Komunikasi (TIK).</p>
+                <p>Melalui website ini, saya berharap dapat mengembangkan kreativitas, menambah wawasan, serta meningkatkan kemampuan saya dalam memanfaatkan teknologi digital, khususnya dalam pembuatan dan pengelolaan website.</p>
+                <p>Saya berharap website ini dapat memberikan informasi yang bermanfaat dan menjadi sarana untuk belajar serta berbagi pengetahuan.</p>
+                <p>Saya menyadari bahwa website ini masih memiliki banyak kekurangan. Oleh karena itu, saya sangat terbuka terhadap kritik dan saran yang membangun agar website ini dapat menjadi lebih baik ke depannya.</p>
+                <p>Terima kasih atas waktu dan kunjungan Anda. Semoga website ini dapat memberikan manfaat bagi kita semua.</p>
+                <p><i>Wassalamu’alaikum Warahmatullahi Wabarakatuh.</i></p>
+                
+                <div class="signature">
+                    <p>Salam hormat,</p>
+                    <p><b>M. Raihan Al Birruny</b><br>Kelas 9C</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION PROFIL -->
+        <section id="profil" class="content-section" style="display: none;">
+            <h1 class="section-title">Profil</h1>
+            
+            <div class="profile-photo-wrapper">
+                <!-- GANTI LINK DI BAWAH DENGAN FOTO KAMU -->
+                <img src="https://ganga--link--ghhzdp9sv8hk.code.run/i/jb661c7dma" alt="Foto Profil">
+            </div>
+
+            <table class="data-table">
+                <tr>
+                    <td>Nama</td>
+                    <td>: M. Raihan Al Birruny</td>
+                </tr>
+                <tr>
+                    <td>Kelas</td>
+                    <td>: 9C</td>
+                </tr>
+                <tr>
+                    <td>Umur</td>
+                    <td>: 15 Tahun</td>
+                </tr>
+                <tr>
+                    <td>Alamat</td>
+                    <td>: Tambirejo, Mbaru Rt 1 Rw 1</td>
+                </tr>
+            </table>
+        </section>
+
+        <!-- SECTION PENGALAMAN -->
+        <section id="pengalaman" class="content-section" style="display: none;">
+            <h1 class="section-title">Pengalaman Belajar</h1>
+            
+            <div class="exp-list">
+                <div class="exp-item">
+                    <h3>1. Berpikir Komputasional</h3>
+                    <p>Belajar memecahkan masalah yang rumit dengan cara yang logis dan terstruktur. Ini melatih saya untuk berpikir seperti seorang programmer saat menghadapi masalah sehari-hari.</p>
+                </div>
+                <div class="exp-item">
+                    <h3>2. Pengenalan Coding / Pemrograman</h3>
+                    <p>Saya diperkenalkan pada logika pemrograman menggunakan Scratch dan dasar JavaScript. Ini memberikan saya gambaran tentang bagaimana sebuah aplikasi atau program dibuat dari nol.</p>
+                </div>
+                <div class="exp-item">
+                    <h3>3. Analisis Data (Spreadsheet)</h3>
+                    <p>Menggunakan aplikasi spreadsheet, saya belajar cara mengumpulkan data, mengolahnya, dan mengubahnya menjadi bentuk grafik yang mudah dipahami oleh orang lain.</p>
+                </div>
+                <div class="exp-item">
+                    <h3>4. Pengembangan Web (HTML & CSS)</h3>
+                    <p>Ini pengalaman paling seru! Saya belajar menggunakan HTML untuk struktur dan CSS untuk desain. Website yang sedang kamu baca ini adalah hasil dari praktik tersebut.</p>
+                </div>
+                <div class="exp-item">
+                    <h3>5. Keamanan & Etika Digital</h3>
+                    <p>Saya diajarkan untuk menjaga privasi di internet, mengenali link penipuan (phishing), serta bagaimana berperilaku sopan dan bertanggung jawab di media sosial.</p>
+                </div>
+                <div class="exp-item">
+                    <h3>6. Jaringan Komputer</h3>
+                    <p>Mengetahui bagaimana internet bekerja, dari mulai perangkat saya terhubung ke Wi-Fi, hingga bisa membuka website yang ada di server jauh di luar sana.</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- JAVASCRIPT -->
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('overlay');
+            
+            sidebar.classList.toggle('active');
+            overlay.classList.toggle('active');
+        }
+
+        function showSection(sectionId, element) {
+            const sections = document.querySelectorAll('.content-section');
+            sections.forEach(sec => {
+                sec.style.display = 'none';
+            });
+
+            const targetSection = document.getElementById(sectionId);
+            targetSection.style.display = 'block';
+            
+            targetSection.style.animation = 'none';
+            targetSection.offsetHeight; 
+            targetSection.style.animation = 'fadeIn 0.4s ease-out forwards';
+
+            const links = document.querySelectorAll('.sidebar-nav a');
+            links.forEach(link => link.classList.remove('active'));
+            element.classList.add('active');
+            
+            if(document.getElementById('sidebar').classList.contains('active')) {
+                toggleSidebar();
+            }
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
